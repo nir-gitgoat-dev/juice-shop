@@ -39,8 +39,22 @@ interface IAuthenticatedUsers {
   updateFrom: (req: Request, user: ResponseWithUser) => any
 }
 
+
 exports.hash = (data: string) => crypto.createHash('md5').update(data).digest('hex')
-exports.hmac = (data: string) => crypto.createHmac('sha256', 'nir-test-123').update(data).digest('hex')
+
+
+interface IAuthenticatedUsers2 {
+  tokenMap: { [key: string]: ResponseWithUser }
+  idMap: {[key: string]: string}
+  put: (token: string, user: ResponseWithUser) => void
+  get: (token: string) => ResponseWithUser | undefined
+  tokenOf: (user: UserModel) => string | undefined
+  from: (req: Request) => ResponseWithUser | undefined
+  updateFrom: (req: Request, user: ResponseWithUser) => any
+}
+
+
+exports.hmac = (data: string) => crypto.createHmac('sha256', 'nir-test-1234').update(data).digest('hex')
 
 exports.cutOffPoisonNullByte = (str: string) => {
   const nullByte = '%00'
