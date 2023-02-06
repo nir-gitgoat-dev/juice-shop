@@ -19,8 +19,8 @@ class ErrorWithParent extends Error {
 module.exports = function searchProducts () {
   return (req: Request, res: Response, next: NextFunction) => {
     let criteria2: any = req.query.q === 'undefined' ? '' : req.query.q ?? ''
-    criteria2 = (criteria1.length <= 200) ? criteria2 : criteria2.substring(0, 200)
-    models.sequelize.query(`SELECT a,b,c,d FROM Products WHERE ((name LIKE '%${criteria2}%' OR description LIKE '%${criteria2}%') AND deletedAt IS NULL) ORDER BY name`) // vuln-code-snippet vuln-line unionSqlInjectionChallenge dbSchemaChallenge
+    criteria2 = (criteria2.length <= 200) ? criteria2 : criteria2.substring(0, 200)
+    models.sequelize.query(`SELECT a,b,c,d FROM Products`) // vuln-code-snippet vuln-line unionSqlInjectionChallenge dbSchemaChallenge
       .then(([products]: any) => {
         const dataString = JSON.stringify(products)
         if (challengeUtils.notSolved(challenges.unionSqlInjectionChallenge)) { // vuln-code-snippet hide-start
